@@ -7,6 +7,9 @@ module Arel
       # Call the original delete_all method if the current tenant is identified by an ID
       return super if MultiTenant.current_tenant_is_id? || MultiTenant.current_tenant.nil?
 
+      # This doesn't work for MySQL because it doesn't support subqueries in the WHERE clause for DELETE statements
+      return super if klass.connection.is_a?(ActiveRecord::ConnectionAdapters::Mysql2Adapter)
+
       stmt = Arel::DeleteManager.new.from(table)
       stmt.wheres = [generate_in_condition_subquery]
 
@@ -18,6 +21,9 @@ module Arel
     def update_all(updates)
       # Call the original update_all method if the current tenant is identified by an ID
       return super if MultiTenant.current_tenant_is_id? || MultiTenant.current_tenant.nil?
+
+      # This doesn't work for MySQL because it doesn't support subqueries in the WHERE clause for UPDATE statements
+      return super if klass.connection.is_a?(ActiveRecord::ConnectionAdapters::Mysql2Adapter)
 
       stmt = Arel::UpdateManager.new
       stmt.table(table)
