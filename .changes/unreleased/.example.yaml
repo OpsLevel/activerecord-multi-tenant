@@ -1,0 +1,10 @@
+# This is an example changelog entry file.
+# Copy this file and rename it (removing the leading dot) when creating your own changelog entries.
+# 
+# Format:
+# kind: <Added|Changed|Deprecated|Removed|Fixed|Security>
+# body: <description of your change>
+#
+# Example:
+# kind: Fixed
+# body: Fix query building for models with mismatched partition_keys
